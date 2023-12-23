@@ -39,3 +39,24 @@ $`C_{14} C_{24}`$ and $`C_{38}`$ (hatched links) are not counted because the cor
  <img src="https://github.com/I2S9/task_placement_in_multi_processor_system/assets/111307883/ee55ce33-90e2-4cc4-8760-b359c33e3540" width="30%" height="30%">
 </p>
 
+The Darwinian theory of evolution is based on two postulates :
+
+- In each environment, only the best adapted species persist over time, the others being condemned to
+disparate
+
+- Within each species, population turnover is mainly due to the best individuals of the species
+
+To **define a genetic algorithm:**
+
+1. A function to optimize and a coding principle of the population element (eligible solution of the problem)
+2. A mechanism for generating the initial population
+3. Operators allowing the population to cross and diversify :
+   - Selection to define individuals who survive
+   - Crossing recomposes the genes of two individuals previously selected
+   - Mutation allows a better exploration of the space of solutions
+    
+# References 
+
+[Comprendre les algorithmes génétiques](https://igm.univ-mlv.fr/~dr/XPOSE2013/tleroux_genetic_algorithm/fonctionnement.html)
+
+[Les Algorithmes génétiques](https://khayyam.developpez.com/articles/algo/genetic/)
