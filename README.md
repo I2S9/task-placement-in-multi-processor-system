@@ -33,6 +33,10 @@ In our case we have 8 tasks and 4 processors :
 $`C_{14} C_{24}`$ and $`C_{38}`$ (hatched links) are not counted because the corresponding tasks were placed on the same processors
 
 ## 2. NP problem
+
+This problem is difficult in the sense of complexity. There is most likely no effective algorithm to find optimal solutions
+Thus, since it is difficult to determine optimal solutions in a reasonable time, we will use heuristic (fast) approaches to determine good solutions
+
 ## 3. Genetic algorithm
 
 <p align="center">
@@ -54,6 +58,10 @@ To **define a genetic algorithm:**
    - Selection to define individuals who survive
    - Crossing recomposes the genes of two individuals previously selected
    - Mutation allows a better exploration of the space of solutions
+  
+# 
+
+
     
 # References 
 
