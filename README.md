@@ -73,9 +73,9 @@ To **define a genetic algorithm:**
    - `Crossing` recomposes the genes of two individuals previously selected
    - `Mutation` allows a better exploration of the space of solutions
   
-# Path to find a solution
+## 4. Path to find a solution
    
-# References 
+## References 
 
 [Comprendre les algorithmes génétiques](https://igm.univ-mlv.fr/~dr/XPOSE2013/tleroux_genetic_algorithm/fonctionnement.html)
 
