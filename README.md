@@ -26,11 +26,25 @@ In our case we have 8 tasks and 4 processors :
 
 - Cost of communication: $`C_{45} + C_{46} + C_{78}`$
 
+$`C_{14}, C_{24}`$ and $`C_{38}`$ (hatched links) are not counted because the corresponding tasks were placed on the same processors
+
 ### 1.1 Input
 
+The input format used will be as follows :
+- $`n`$ : number of tasks
+- $`p`$ : number of processors
+- $`Q`$ : execution costs (matrix n x p)
+- $`C`$ : communication costs (matrix n x n symmetrical therefore storage of the upper triangular part)
+  
+***Example :***
+
+<p align="center">
+ <img src="https://github.com/I2S9/task_placement_in_multi_processor_system/assets/111307883/50772b53-e1a2-432a-a6c8-e78168d33cd1" width="30%" height="30%">
+</p>
+  
 ### 1.2 Output
 
-$`C_{14} C_{24}`$ and $`C_{38}`$ (hatched links) are not counted because the corresponding tasks were placed on the same processors
+Display in the terminal which task is associated with which processor
 
 ## 2. NP problem
 
@@ -55,14 +69,12 @@ To **define a genetic algorithm:**
 1. A function to optimize and a coding principle of the population element (eligible solution of the problem)
 2. A mechanism for generating the initial population
 3. Operators allowing the population to cross and diversify :
-   - Selection to define individuals who survive
-   - Crossing recomposes the genes of two individuals previously selected
-   - Mutation allows a better exploration of the space of solutions
+   - `Selection` to define individuals who survive
+   - `Crossing` recomposes the genes of two individuals previously selected
+   - `Mutation` allows a better exploration of the space of solutions
   
-# 
-
-
-    
+# Path to find a solution
+   
 # References 
 
 [Comprendre les algorithmes génétiques](https://igm.univ-mlv.fr/~dr/XPOSE2013/tleroux_genetic_algorithm/fonctionnement.html)
