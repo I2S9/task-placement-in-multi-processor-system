@@ -53,6 +53,30 @@ Thus, since it is difficult to determine optimal solutions in a reasonable time,
 
 ## 3. Genetic algorithm
 
+### 3.1 What is Genetic Algorithm ?
+
+<p align="justify">
+In traditional genetic algorithm, the representation used is a fixed-length bit string.Each position in the string is assumed to represent a particular feature of an individual, and the value stored in that position represents how that feature is expressed in the solution. Usually, the string is “evaluated as a collection of structural features of a solution that have little or no interactions”. The analogy may be drawn directly to genes in biological organisms. Each gene represents an entity that is structurally independent of other genes. The main reproduction operator used is bit-string crossover, in which two strings are used as parents and new individuals are formed by swapping a sub-sequence between the two strings (see Fig. 1.1). Another popular operator is bit-flipping mutation, in which a single bit in the string is flipped to form a new offspring string.
+</p>
+
+### 3.2 Why would you use it ?
+
+<p align="justify">
+ Some problems are too complex to propose an algorithm, or when there is no exact method to solve them, a delicate and/or confusing modeling where the solution to the problem is unknown. Or an algorithm tolerant to data variations, likely to adapt to a new situation, so that it evolves.
+For example, how to make the movement of a robot? How to make react this robot following a jostling, a loss of balance? How to adapt the behavior of the robot in the face of danger?
+Genetic algorithms offer a solution to these questions.
+
+These algorithms are also an excellent support for the field of Machine Learning, which is a field of study of artificial intelligence. These can be used to optimize a neural network, including training the network through the use of new information in synaptic connections, thus improving network topology to obtain an optimal learning rule: This is called neuroevolution.
+
+Genetic algorithms can also be used to optimize systems based on fuzzy logic, by performing the generation and/or optimization of rules or operators in those systems. 
+</p>
+
+<p align="center">
+ <img src="https://github.com/I2S9/task_placement_in_multi_processor_system/assets/111307883/51f31580-e52c-48b9-86ef-ee37738ca0d5" width="50%" height="50%">
+</p>
+
+### 3.3 Algorithm 
+
 <p align="center">
  <img src="https://github.com/I2S9/task_placement_in_multi_processor_system/assets/111307883/ee55ce33-90e2-4cc4-8760-b359c33e3540" width="30%" height="30%">
 </p>
@@ -80,3 +104,5 @@ To **define a genetic algorithm:**
 [Comprendre les algorithmes génétiques](https://igm.univ-mlv.fr/~dr/XPOSE2013/tleroux_genetic_algorithm/fonctionnement.html)
 
 [Les Algorithmes génétiques](https://khayyam.developpez.com/articles/algo/genetic/)
+
+[Introduction to Genetic Algorithms](https://link.springer.com/book/10.1007/978-3-540-73190-0)
