@@ -97,7 +97,7 @@ To **define a genetic algorithm:**
    - `Crossing` recomposes the genes of two individuals previously selected
    - `Mutation` allows a better exploration of the space of solutions
 
-Let’s say Pk the population at the first generation and N its size. We go from Pk to Pk+1 in three stages :
+Let’s say $`Pk`$ the population at the first generation and N its size. We go from $`Pk`$ to $`Pk+1`$ in three stages :
 
 1. Selection: passage from $`Pk`$ to $`Sk`$. The $`N`$ individuals of $`Sk`$ are selected (with possible repetition) among those of $`Pk`$ according to their value. The others are dying
 2. Crossing: passage from $`Sk`$ to $`Ck`$. Two individuals (which will disappear: place for young people! ) cross to give birth to two children or crossing does not occur (and individuals remain unchanged). A constant probability is set crossing.
