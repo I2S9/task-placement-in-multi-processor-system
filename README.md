@@ -99,9 +99,9 @@ To **define a genetic algorithm:**
 
 Let’s say Pk the population at the first generation and N its size. We go from Pk to Pk+1 in three stages :
 
-1. Selection: passage from Pk to Sk. The N individuals of Sk are selected (with possible repetition) among those of Pk according to their value. The others are dying
-2. Crossing: passage from Sk to Ck . Two individuals (which will disappear: place for young people! ) cross to give birth to two children or crossing does not occur (and individuals remain unchanged). A constant probability is set crossing.
-3. The possible mutation of the individuals obtained: passage from Ck to Pk+1. A constant probability of mutation is defined.
+1. Selection: passage from $`Pk`$ to $`Sk`$. The $`N`$ individuals of $`Sk`$ are selected (with possible repetition) among those of $`Pk`$ according to their value. The others are dying
+2. Crossing: passage from $`Sk`$ to $`Ck`$. Two individuals (which will disappear: place for young people! ) cross to give birth to two children or crossing does not occur (and individuals remain unchanged). A constant probability is set crossing.
+3. The possible mutation of the individuals obtained: passage from $`Ck`$ to $`Pk+1`$. A constant probability of mutation is defined.
   
 ## 4. Path to find a solution
    
