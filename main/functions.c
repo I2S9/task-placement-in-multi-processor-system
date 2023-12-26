@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "functions.h"
+#include "structures.h"
 
 void loadData(char* filename, int* nbProc, int* nbTask, int*** execCost, int*** commCost)
 {
@@ -12,7 +13,7 @@ void loadData(char* filename, int* nbProc, int* nbTask, int*** execCost, int*** 
 
     if(file == NULL)
     {
-        perror("Impossible d'ouvrir le fichier");
+        perror("Impossible d'ouvrir le fichier\n");
     }
     else
     {
@@ -25,7 +26,7 @@ void loadData(char* filename, int* nbProc, int* nbTask, int*** execCost, int*** 
 }
 
 void displayExecCost(int **execCost, int nbProc, int nbTask) {
-    puts("Matrice des couts d'éxecution");
+    puts("Matrice des couts d'éxecution\n");
     for (int p = 0; p < nbProc; p++) {
         for (int t = 0; t < nbTask; t++) {
             printf("%.0lf\t", execCost[p][t]);
@@ -34,7 +35,7 @@ void displayExecCost(int **execCost, int nbProc, int nbTask) {
     }
 }
 void displaycommCost(int **commCost, int nbProc, int nbTask) {
-    puts("Matrice des couts de communication");
+    puts("Matrice des couts de communication\n");
     for (int t1 = 0; t1 < nbTask; t1++) {
         for (int t2 = 0; t2 < nbTask; t2++) {
             printf("%.0lf\t", commCost[t1][t2]);
@@ -53,18 +54,35 @@ taskRepartition* getRandomTaskRepartition(int nbTask, int nbProc) {
     return (tr);
 }
 
-int getTotalExecCost(taskRepartition *tr, int **execCost,int **commCost, int nbTask) {
-    int cost = 0;
-    for (int t = 0; t < nbTask; t++) {
-        // printf("execCost[%d][%d]\n",tr->procRepartition[t],t);
-        cost += execCost[tr->procRepartition[t]][t];
-    }
-    for (int t1 = 0; t1 < nbTask - 1; t1++) {
-        for (int t2 = t1 + 1; t2 < nbTask; t2++) {
-            if (tr->procRepartition[t1] != tr->procRepartition[t2]) {
-                cost += commCost[t1][t2];
+double getTotalExecCost(taskRepartition *tr, double **execCost,
+        double **commCost, int nbTask, int nbProc) {
+    double cost;
+    double *costByProc = malloc(nbProc * sizeof(double));
+    for (int p = 0; p < nbProc; p++) {
+        cost = 0;
+        for (int t = 0; t < nbTask; t++) {
+            if (tr->procRepartition[t] == p) {
+                cost += execCost[tr->procRepartition[t]][t];
             }
+        }
+        for (int t1 = 0; t1 < nbTask - 1; t1++) {
+            if (tr->procRepartition[t1] == p) {
+                for (int t2 = t1 + 1; t2 < nbTask; t2++) {
+                    if (tr->procRepartition[t1] != tr->procRepartition[t2]) {
+                        cost += commCost[t1][t2];
+                    }
+                }
+            }
+        }
+        costByProc[p] = cost;
+    }
+    cost = costByProc[0];
+    for (int p = 1; p < nbProc; p++) {
+        if (cost < costByProc[p]){
+            cost =costByProc[p];
         }
     }
     return (cost);
 }
+
+
