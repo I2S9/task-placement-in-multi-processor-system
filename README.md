@@ -2,6 +2,14 @@
 
  This project is an NP problem consisting of placing tasks in a multi-processor system using a genetic algorithm
 
+## Plan
+### 1. Introduction
+### 2. NP-Problem
+### 3. Genetic Algorithm
+### 4. Path to find a solution
+
+
+
 ## 1. Introduction
 
 We have a set of processes (or tasks) $`T_1, . . , T_n`$ of a parallel program and a set of processors $P_1, . . , P_p$
