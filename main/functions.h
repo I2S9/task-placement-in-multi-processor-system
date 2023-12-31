@@ -14,4 +14,7 @@ double getTotalExecCost(taskRepartition *tr, int **execCost,int **commCost, int 
 void sortPopulation(Population, taillePopulation);
 void displayPopulation(Population, taillePopulation);
 
+void mutate(taskRepartition* individu, int nbTask, int nbProc);
+taskRepartition* cross(taskRepartition* parent1, taskRepartition* parent2, int nbTask);
+void addNewGeneration(taskRepartition** currentPopulation, int nbTask, int nbProc, int** execCost, int** commCost);
 #endif // FUNCTIONS_H
