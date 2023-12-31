@@ -11,5 +11,7 @@ double getTotalExecCost(taskRepartition *tr, int **execCost,int **commCost, int 
 void initializePopulation(taskRepartition** Population, int size, int nbTask, int nbProc,int **execCost, int **commCost);
 taskRepartition* getRandomTaskRepartition(int nbTask, int nbProc);
 double getTotalExecCost(taskRepartition *tr, int **execCost,int **commCost, int nbTask, int nbProc);
+void sortPopulation(Population, taillePopulation);
+void displayPopulation(Population, taillePopulation);
 
 #endif // FUNCTIONS_H
