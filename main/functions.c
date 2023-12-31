@@ -96,3 +96,20 @@ void initializePopulation(taskRepartition** Population, int size, int nbTask, in
         printf("], Cout Total - %f\n", Population[i]->totalCost);
     }
 }
+
+void sortPopulation(taskRepartition **population, int taillePopulation) {
+    for (int i = 0; i < taillePopulation - 1; i++) {
+        for (int j = 0; j < taillePopulation - i - 1; j++) {
+            if (population[j]->totalCost > population[j + 1]->totalCost) {
+                taskRepartition *temp = population[j];
+                population[j] = population[j + 1];
+                population[j + 1] = temp;
+            }
+        }
+    }
+}
+void displayPopulation(taskRepartition **population, int taillePopulation) {
+    for (int i = 0; i < taillePopulation; i++) {
+        printf("Individu %d: Cout Total - %f\n", i, population[i]->totalCost);
+    }
+}
