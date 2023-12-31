@@ -2,8 +2,15 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <time.h>
 // #include "structures.h"
 // #include "functions.h"
+
+#define POPULATION_SIZE 100
+#define SELECTION_RATE 66
+#define CROSS_RATE 40
+#define MUTATION_RATE 20
+#define NOMBRE_GENERATIONS 100 
 
 typedef struct taskRepartition taskRepartition;
 
@@ -15,6 +22,7 @@ struct taskRepartition{
 typedef taskRepartition* taskPopulation;
 
 
+
 void loadData(char* filename, int* nbProc, int* nbTask, int*** execCost, int*** commCost);
 void displayExecCost(int **execCost, int nbProc, int nbTask);
 void displaycommCost(int **commCost, int nbProc, int nbTask);
@@ -22,11 +30,17 @@ void displaycommCost(int **commCost, int nbProc, int nbTask);
 void initializePopulation(taskRepartition** Population, int size, int nbTask, int nbProc,int **execCost, int **commCost);
 taskRepartition* getRandomTaskRepartition(int nbTask, int nbProc);
 double getTotalExecCost(taskRepartition *tr, int **execCost,int **commCost, int nbTask, int nbProc);
-void sortPopulation(Population, taillePopulation);
-void displayPopulation(Population, taillePopulation);
+void sortPopulation(taskRepartition **Population, int taillePopulation);
+void displayPopulation(taskRepartition **Population, int taillePopulation);
+
+
+void mutate(taskRepartition* individu, int nbTask, int nbProc);
+taskRepartition* cross(taskRepartition* parent1, taskRepartition* parent2, int nbTask);
+void addNewGeneration(taskRepartition** currentPopulation, int nbTask, int nbProc, int** execCost, int** commCost);
 
 int main(void)
 {
+    srand(time(NULL));
     char filename[] = "fichier_test.dat"; 
     int nbProc;
     int nbTask;
@@ -35,7 +49,6 @@ int main(void)
     loadData(filename, &nbProc, &nbTask, &execCost, &commCost);
     displayExecCost(execCost, nbProc, nbTask);
     displaycommCost(commCost, nbProc, nbTask);
-
 
     int taillePopulation = 100;
     taskRepartition** Population = malloc(taillePopulation * sizeof(taskRepartition*));
@@ -49,6 +62,33 @@ int main(void)
     for (int i = 0; i < taillePopulation; i++) {
             free(Population[i]);
     }
+
+    taskRepartition **currentPopulation = malloc(POPULATION_SIZE * sizeof(taskRepartition *));
+    if (currentPopulation == NULL) {
+        fprintf(stderr, "Erreur d'allocation de memoire pour currentPopulation\n");
+        return 1;
+    }
+    for (int i = 0; i < POPULATION_SIZE; i++) {
+        currentPopulation[i] = getRandomTaskRepartition(nbTask, nbProc); 
+    }
+
+    for (int generation = 0; generation < NOMBRE_GENERATIONS; generation++) {
+        addNewGeneration(currentPopulation, nbTask, nbProc, execCost, commCost);
+        printf("Generation %d, cout minimal actuel : %f\n", generation, currentPopulation[0]->totalCost);
+    }
+
+    printf("Cout de placement minimal (total): %f\n", currentPopulation[0]->totalCost);
+    printf("Le placement final correspondant est donc : \n");
+    for (int i = 0; i < nbTask; i++) {
+        printf("T%d : P%d ", i, currentPopulation[0]->procRepartition[i]);
+    }
+    printf("\n");
+
+    for (int i = 0; i < POPULATION_SIZE; i++) {
+        free(currentPopulation[i]->procRepartition);
+        free(currentPopulation[i]);
+    }
+    free(currentPopulation);
     free(Population);
     return 0; 
 }
@@ -204,3 +244,58 @@ void displayPopulation(taskRepartition **population, int taillePopulation) {
         printf("Individu %d: Cout Total - %f\n", i, population[i]->totalCost);
     }
 }
+
+void mutate(taskRepartition* individu, int nbTask, int nbProc) {
+    for (int i = 0; i < nbTask; i++) {
+        if (rand() % 100 < MUTATION_RATE) {
+            individu->procRepartition[i] = rand() % nbProc;
+        }
+    }
+}
+
+taskRepartition* cross(taskRepartition* parent1, taskRepartition* parent2, int nbTask) {
+    taskRepartition* enfant = malloc(sizeof(taskRepartition));
+    enfant->procRepartition = malloc(nbTask * sizeof(int));
+
+    for (int i = 0; i < nbTask; i++) {
+        enfant->procRepartition[i] = (rand() % 2 == 0) ? parent1->procRepartition[i] : parent2->procRepartition[i];
+    }
+
+    return enfant;
+}
+
+void addNewGeneration(taskRepartition** currentPopulation, int nbTask, int nbProc, int** execCost, int** commCost) {
+    int X = POPULATION_SIZE * SELECTION_RATE / 100;
+
+    sortPopulation(currentPopulation, POPULATION_SIZE);
+
+    taskRepartition** newPopulation = malloc(POPULATION_SIZE * sizeof(taskRepartition*));
+    for (int i = 0; i < X; i++) {
+        newPopulation[i] = currentPopulation[i];
+    }
+
+    for (int i = X; i < POPULATION_SIZE; i++) {
+        int parent1Idx = rand() % X;
+        int parent2Idx = rand() % POPULATION_SIZE;
+
+        newPopulation[i] = cross(currentPopulation[parent1Idx], currentPopulation[parent2Idx], nbTask);
+        mutate(newPopulation[i], nbTask, nbProc);
+        // newPopulation[i]->totalCost = getTotalExecCost(newPopulation[i], execCost, commCost, nbTask);
+        newPopulation[i]->totalCost = getTotalExecCost(newPopulation[i], execCost, commCost, nbTask, nbProc);
+
+    }
+
+    for (int i = 0; i < POPULATION_SIZE; i++) {
+        if (i >= X) {
+            free(currentPopulation[i]->procRepartition);
+            free(currentPopulation[i]);
+        }
+        currentPopulation[i] = newPopulation[i];
+    }
+
+    free(newPopulation);
+}
+
+
+
+
