@@ -22,6 +22,8 @@ void displaycommCost(int **commCost, int nbProc, int nbTask);
 void initializePopulation(taskRepartition** Population, int size, int nbTask, int nbProc,int **execCost, int **commCost);
 taskRepartition* getRandomTaskRepartition(int nbTask, int nbProc);
 double getTotalExecCost(taskRepartition *tr, int **execCost,int **commCost, int nbTask, int nbProc);
+void sortPopulation(Population, taillePopulation);
+void displayPopulation(Population, taillePopulation);
 
 int main(void)
 {
@@ -42,6 +44,8 @@ int main(void)
         return 1;
     }
     initializePopulation(Population, taillePopulation, nbTask, nbProc, execCost, commCost);
+    sortPopulation(Population, taillePopulation);
+    displayPopulation(Population, taillePopulation);
     for (int i = 0; i < taillePopulation; i++) {
             free(Population[i]);
     }
@@ -181,5 +185,22 @@ void initializePopulation(taskRepartition** Population, int size, int nbTask, in
             printf("%d ", Population[i]->procRepartition[j]);
         }
         printf("], Cout Total - %f\n", Population[i]->totalCost);
+    }
+}
+
+void sortPopulation(taskRepartition **population, int taillePopulation) {
+    for (int i = 0; i < taillePopulation - 1; i++) {
+        for (int j = 0; j < taillePopulation - i - 1; j++) {
+            if (population[j]->totalCost > population[j + 1]->totalCost) {
+                taskRepartition *temp = population[j];
+                population[j] = population[j + 1];
+                population[j + 1] = temp;
+            }
+        }
+    }
+}
+void displayPopulation(taskRepartition **population, int taillePopulation) {
+    for (int i = 0; i < taillePopulation; i++) {
+        printf("Individu %d: Cout Total - %f\n", i, population[i]->totalCost);
     }
 }
