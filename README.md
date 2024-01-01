@@ -112,7 +112,13 @@ Let’s say $`P_k`$ the population at the first generation and N its size. We go
 3. The possible mutation of the individuals obtained: passage from $`C_k`$ to $`P_{k+1}`$. A constant probability of mutation is defined.
   
 ## 4. Path to find a solution
-   
+
+<p align="justify">
+In order to develop an effective approach, we first generated a random placement of all tasks and evaluated its cost. If, by chance, this total cost is below the threshold (given not to cross in order to ensure that the distribution of tasks on the multi-processor system is optimized), we return the placement made in the terminal. 
+ 
+If necessary, we sort all the individuals of the population (= tasks) in ascending order and we keep some of them (say the least expensive 2/3) and, with the remaining 1/3, we merge them (crossing process) with individuals belonging to the 2/3, finally we change a task (mutation process) randomly on a processor. We repeat the operation indefinitely until reaching a sufficiently low total cost (in this case below the previously defined threshold). Thus, it is possible to make the choice to enlarge the population or to keep its initial size
+</p>
+
 ## References 
 
 [Comprendre les algorithmes génétiques](https://igm.univ-mlv.fr/~dr/XPOSE2013/tleroux_genetic_algorithm/fonctionnement.html)
@@ -120,3 +126,7 @@ Let’s say $`P_k`$ the population at the first generation and N its size. We go
 [Les Algorithmes génétiques](https://khayyam.developpez.com/articles/algo/genetic/)
 
 [Introduction to Genetic Algorithms](https://link.springer.com/book/10.1007/978-3-540-73190-0)
+
+[Genetic Algorithms | Standford](https://link.springer.com/book/10.1007/978-3-540-73190-0](https://www-cs-students.stanford.edu/~jl/Essays/ga.html)https://www-cs-students.stanford.edu/~jl/Essays/ga.html)
+
+
