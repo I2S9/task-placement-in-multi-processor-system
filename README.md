@@ -22,7 +22,7 @@ The communication cost between two tasks placed on a single processor is neglige
 
 **The goal of this project is to minimize the total cost of execution, ie the sum of execution and communication costs**
 
-***Example :***
+Example :
 
 
 <p align="center">
@@ -44,7 +44,7 @@ The input format used will be as follows :
 - $`Q`$ : execution costs (matrix n x p)
 - $`C`$ : communication costs (matrix n x n symmetrical therefore storage of the upper triangular part)
   
-***Example :***
+Example :
 
 <p align="center">
  <img src="https://github.com/I2S9/task_placement_in_multi_processor_system/assets/111307883/50772b53-e1a2-432a-a6c8-e78168d33cd1" width="30%" height="30%">
