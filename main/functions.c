@@ -2,14 +2,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "functions.h"
-#include "structures.h"
 #include <time.h>
+
+
+void displayExecCost(int **execCost, int nbProc, int nbTask) {
+    puts("Matrice des couts d'execution :");
+    for (int p = 0; p < nbProc; p++) {
+        for (int t = 0; t < nbTask; t++) {
+            printf("%d\t", execCost[p][t]);
+        }
+        puts("");
+    }
+}
+void displaycommCost(int **commCost, int nbProc, int nbTask) {
+    puts("Matrice des couts de communication :");
+    for (int t1 = 0; t1 < nbTask; t1++) {
+        for (int t2 = 0; t2 < nbTask; t2++) {
+            printf("%d\t", commCost[t1][t2]);
+        }
+        puts("");
+    }
+}
 
 void loadData(char* filename, int* nbProc, int* nbTask, int*** execCost, int*** commCost)
 {
     FILE* file = NULL;
     char buffer[1000];
     char delim[] = " ";
+    char* ptr;
     file = fopen(filename, "r");
 
     if(file == NULL)
@@ -22,28 +42,51 @@ void loadData(char* filename, int* nbProc, int* nbTask, int*** execCost, int*** 
         *nbTask = strtol(buffer, NULL, 10);
         fgets(buffer, 1000, file);
         *nbProc = strtol(buffer, NULL, 10);
-        printf("%d, %d", *nbTask, *nbProc);
+        printf("%d, %d\n", *nbTask, *nbProc);
+
+        *execCost = malloc(*nbProc*sizeof(int*));
+        for(int i=0; i<*nbProc; i++)
+        {
+            (*execCost)[i] = malloc(*nbTask*sizeof(int));
+            fgets(buffer, 1000, file);
+            printf("%s\n",buffer);
+            ptr = strtok(buffer, delim);
+            int j=0;
+            while(NULL != ptr)
+            {
+                (*execCost)[i][j] = strtol(ptr, NULL, 10);
+                ptr = strtok(NULL, delim);
+                j++;
+            }
+        }
+        *commCost = malloc(*nbTask*sizeof(int*));
+        for(int i=0; i<*nbTask; i++)
+        {
+            (*commCost)[i] = malloc(*nbTask*sizeof(int));
+            for(int j=0; j<*nbTask; j++)
+            {
+                (*commCost)[i][j] = 0; 
+            }
+        }
+        for(int i=0; i<*nbTask; i++)
+        {
+            fgets(buffer, 1000, file);
+            printf("%s\n",buffer);
+            ptr = strtok(buffer, delim);
+            int j=0;
+            while(NULL != ptr)
+            {
+                int val = strtol(ptr, NULL, 10);
+                (*commCost)[i][j] = val;
+                (*commCost)[j][i] = val;
+                ptr = strtok(NULL, delim);
+                j++;
+            }
+        }
     }
+    fclose(file);
 }
 
-void displayExecCost(int **execCost, int nbProc, int nbTask) {
-    puts("Matrice des couts d'éxecution\n");
-    for (int p = 0; p < nbProc; p++) {
-        for (int t = 0; t < nbTask; t++) {
-            printf("%.0lf\t", execCost[p][t]);
-        }
-        puts("");
-    }
-}
-void displaycommCost(int **commCost, int nbProc, int nbTask) {
-    puts("Matrice des couts de communication\n");
-    for (int t1 = 0; t1 < nbTask; t1++) {
-        for (int t2 = 0; t2 < nbTask; t2++) {
-            printf("%.0lf\t", commCost[t1][t2]);
-        }
-        puts("");
-    }
-}
 
 taskRepartition* getRandomTaskRepartition(int nbTask, int nbProc) {
     taskRepartition *tr = malloc(sizeof(taskRepartition));
@@ -114,12 +157,20 @@ void displayPopulation(taskRepartition **population, int taillePopulation) {
     }
 }
 
+// void mutate(taskRepartition* individu, int nbTask, int nbProc) {
+//     int taskToMutate = rand() % nbTask;
+//     int newProc = rand() % nbProc;
+//     individu->procRepartition[taskToMutate] = newProc;
+// }
+
 void mutate(taskRepartition* individu, int nbTask, int nbProc) {
-    for (int i = 0; i < nbTask; i++) {
-        if (rand() % 100 < MUTATION_RATE) {
-            individu->procRepartition[i] = rand() % nbProc;
-        }
-    }
+    int taskToMutate = rand() % nbTask;
+    int newProc;
+    do {
+        newProc = rand() % nbProc;
+    } while (newProc == individu->procRepartition[taskToMutate]);
+    
+    individu->procRepartition[taskToMutate] = newProc;
 }
 
 taskRepartition* cross(taskRepartition* parent1, taskRepartition* parent2, int nbTask) {
@@ -132,6 +183,39 @@ taskRepartition* cross(taskRepartition* parent1, taskRepartition* parent2, int n
 
     return enfant;
 }
+
+// void addNewGeneration(taskRepartition** currentPopulation, int nbTask, int nbProc, int** execCost, int** commCost) {
+//     int X = POPULATION_SIZE * SELECTION_RATE / 100;
+
+//     sortPopulation(currentPopulation, POPULATION_SIZE);
+
+//     taskRepartition** newPopulation = malloc(POPULATION_SIZE * sizeof(taskRepartition*));
+//     for (int i = 0; i < X; i++) {
+//         newPopulation[i] = currentPopulation[i];
+//     }
+
+//     for (int i = X; i < POPULATION_SIZE; i++) {
+//         int parent1Idx = rand() % X;
+//         int parent2Idx = rand() % POPULATION_SIZE;
+
+//         newPopulation[i] = cross(currentPopulation[parent1Idx], currentPopulation[parent2Idx], nbTask);
+//         mutate(newPopulation[i], nbTask, nbProc);
+//         // newPopulation[i]->totalCost = getTotalExecCost(newPopulation[i], execCost, commCost, nbTask);
+//         newPopulation[i]->totalCost = getTotalExecCost(newPopulation[i], execCost, commCost, nbTask, nbProc);
+
+//     }
+
+//     for (int i = 0; i < POPULATION_SIZE; i++) {
+//         if (i >= X) {
+//             free(currentPopulation[i]->procRepartition);
+//             free(currentPopulation[i]);
+//         }
+//         currentPopulation[i] = newPopulation[i];
+//     }
+
+//     free(newPopulation);
+// }
+
 
 void addNewGeneration(taskRepartition** currentPopulation, int nbTask, int nbProc, int** execCost, int** commCost) {
     int X = POPULATION_SIZE * SELECTION_RATE / 100;
@@ -148,9 +232,11 @@ void addNewGeneration(taskRepartition** currentPopulation, int nbTask, int nbPro
         int parent2Idx = rand() % POPULATION_SIZE;
 
         newPopulation[i] = cross(currentPopulation[parent1Idx], currentPopulation[parent2Idx], nbTask);
-        mutate(newPopulation[i], nbTask, nbProc);
-        // newPopulation[i]->totalCost = getTotalExecCost(newPopulation[i], execCost, commCost, nbTask);
-        newPopulation[i]->totalCost = getTotalExecCost(newPopulation[i], execCost, commCost, nbTask, nbProc);
+
+        do {
+            mutate(newPopulation[i], nbTask, nbProc);
+            newPopulation[i]->totalCost = getTotalExecCost(newPopulation[i], execCost, commCost, nbTask, nbProc);
+        } while (newPopulation[i]->totalCost == 0);
 
     }
 
