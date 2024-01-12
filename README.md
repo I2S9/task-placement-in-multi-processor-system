@@ -1,6 +1,8 @@
 # Task placement in a multi-processor system
 
- This project is an NP problem consisting of placing tasks in a multi-processor system using a genetic algorithm
+ This project is an NP problem consisting of placing tasks in a multi-processor system using a genetic algorithm.
+
+ Here is a simulation for 300 individuals in our population and 200 generations (we stop the generation of generations by press 'enter') :
 
 <p align="center">
   <img src="https://github.com/I2S9/task-placement-in-multi-processor-system/blob/main/demo.gif" alt="Demo Task Placement">
