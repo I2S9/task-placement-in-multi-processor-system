@@ -2,6 +2,10 @@
 
  This project is an NP problem consisting of placing tasks in a multi-processor system using a genetic algorithm
 
+<p align="center">
+  <img src="https://github.com/I2S9/task-placement-in-multi-processor-system/blob/main/demo.gif" alt="Demo Task Placement">
+</p>
+
 ## Plan
 ### 1. Introduction
 ### 2. NP-Problem
