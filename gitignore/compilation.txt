@@ -1,0 +1,3 @@
+Les commandes de compilation pour le projet sont les suivantes : 
+
+gcc -Wall -ansi main.c functions.c -o main.exe
