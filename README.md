@@ -133,6 +133,6 @@ If necessary, we sort all the individuals of the population (= tasks) in ascendi
 
 [Introduction to Genetic Algorithms](https://link.springer.com/book/10.1007/978-3-540-73190-0)
 
-[Genetic Algorithms | Standford](https://link.springer.com/book/10.1007/978-3-540-73190-0](https://www-cs-students.stanford.edu/~jl/Essays/ga.html)https://www-cs-students.stanford.edu/~jl/Essays/ga.html)
+[Genetic Algorithms | Stanford](https://link.springer.com/book/10.1007/978-3-540-73190-0](https://www-cs-students.stanford.edu/~jl/Essays/ga.html)https://www-cs-students.stanford.edu/~jl/Essays/ga.html)
 
 
